@@ -1,0 +1,22 @@
+Q1: On pourrait vouloir que la texture de l'échiquier se « déplace » sur
+    l'objet en fonction du temps, comme si elle glissait sur la surface dans
+    une direction donnée. Comment implanteriez-vous cette fonctionnalité?
+
+    On définit une matrice de transformation pour la texture et on applique les
+    transformations.Cette matrice est envoyée aux nuanceurs de la même manière que pour les matrices MVP.
+    La transformation sera appliquée dans le nuanceur de fragments en multipliant
+    le vecteur coordonnées de la texture par la matrice. Ainsi, on change les coordonnées de la texture.
+
+
+Q2: Vous avez probablement remarqué que même en demandant un très grand
+    niveau de tessellation, le générateur de tessellation ne produira pas
+    une tessellation plus fine que le niveau maximum donné par la constante
+    GL_MAX_TESS_GEN_LEVEL.  (On peut obtenir la valeur de cette constante
+    avec glGet() et elle doit être au moins 64.)
+    Que doit-on alors faire si on veut, malgré tout, une tessellation deux
+    fois plus fine dans chaque direction?
+
+    Nous avons 1 patch pour chaque face du cube et sur chaque face on applique une tesselation maximale. Alors, si
+    on aimerait avoir une tesselation deux fois plus fine, chaque patch sera remplacé par 4 patchs sur lesquels, on va 
+    appliquer la tesselation maximale. 
+

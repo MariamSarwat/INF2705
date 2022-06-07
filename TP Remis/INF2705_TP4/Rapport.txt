@@ -1,0 +1,26 @@
+Indice: pour bien répondre à ces deux questions, essayez de voir si votre réponse fonctionne dans votre application. (Pour chacune, ce ne sont que quelques lignes à modifier dans le nuanceur!)
+
+
+Q1: Dans la partie 1, des points de taille fixe sont affichés à l'écran. Leur taille est donnée par la variable gl_PointSize.
+    i) Comment faire pour que la taille d'un point varie de façon inverse à sa distance du plan avant du volume de visualisation, c'est-à-dire qu'il soit plus gros lorsqu'il est plus près de la caméra ?
+
+Réponse: La coordonnée en Z d'un Vertex, pour une projection, correspond à moins "-" la distance normalisée avec le plan avant de la caméra. Il faut alors multiplier l'inverse de cette valeur au gl_PointSize pour faire varier la taille en fonction de la distance avec le plan avant de la caméra.
+
+
+    ii) Donnez l'énoncé GLSL que vous utiliseriez pour implanter ceci.
+
+Réponse: Ainsi, dans le nuanceur de Sommet on remplace "gl_PointSize = pointsize;" par "gl_PointSize = -pointsize/((matrProj * matrVisu * matrModel * Vertex).z);"
+
+
+Q2: Pour afficher une étincelle qui tourne sur elle-même, on a appliqué une matrice de rotation sur les quatre sommets.
+    i) Pourrait-on faire tourner l'étincelle en appliquant la même matrice de rotation sur les coordonnées de texture plutôt que sur les coordonnées des sommets?
+
+Réponse: Oui, cela est possible.
+
+    ii) Quel problème observerions-nous alors et comment devrait-il être corrigé?
+
+Réponse: On remarque que pour certaine texture, l'image sera deformé et que les pixels de ce dernier seront étirées. Pour remédier cela, il ne faut pas tenir en compte tout ce qui dépasse l'image. Il faut alors inversé les glTextParametri et les rendre :
+
+glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+

@@ -1,0 +1,41 @@
+Q1: Supposons que les coordonnées du modèle soient exprimées dans un système
+    de coordonnées « main gauche » (au lieu du l'habituel « main droite »).
+    Comment devrait-on alors modifier la matrice 4x4 servant à la rotation
+    afin de préserver le même effet visuel d'une rotation positive ?  Quelle
+    serait la nouvelle matrice pour une rotation autour de l'axe des Z ?
+    
+    Afin de préserver le même effet visuel d'une rotation, il faut appliquer
+    les angles inverses. Ce qui veut dire que les angles dans la matrice de 
+    transformations prendront le signe négatif ( cos(-theta)= cos(theta) et
+    sin(-theta)=-sin(theta). Ainsi la nouvelle matrice selon l'axe des z sera:
+    -                                  -
+    | cos(theta)    sin(theta)  0   0  |
+    |-sin(theta)    cos(theta)  0   0  |
+    |     0             0       1   0  |
+    |     0             0       0   1  |
+    -                                  -
+
+Q2: Dans ce TP, on peut déplacer le bonhomme avec les flèches du clavier ou
+    encore lancer un déplacement « automatique » avec la touche 'espace'.
+    le bonhomme se déplace alors dans différentes directions, entre en
+    collision avec les parois du cube qui la contient et son mouvement (son
+    déplacement) change alors de direction.
+
+    Lorsque le bonhomme se déplace ainsi, comment peut-on toujours montrer
+    le bonhomme se déplaçant en regardant vers l'avant, c'est-à-dire dans le
+    sens de son mouvement. Comment faire en sorte que la tête (et le corps)
+    soit toujours dirigée dans le sens de son mouvement ?
+    Décrivez (avec assez de détails) comment vous implanteriez ceci dans ce TP.
+	
+	
+	Pour pouvoir diriger la tête dans le sens du mouvement, il faudrait faire 
+	une rotation selon le sens inverse avec lequel le bonhomme est venu. 
+	Pour ce faire, nous devons créer des variables qui permettent de récupérer
+	les poisitions du corps en fonction de la position initiale. Il faut, cependant, 
+	vérifier que les variables x et y additionnées au rayon sont égales aux 
+	dimensions de la boîte moins la position relative de la position initiale
+	(repère). Cela permet de s'assurer qu'on est sur le contour du bonhomme et non au 
+	centre. 
+	Si c'est le cas, il faut effectuer une rotation de 180- arc tangente de y/x selon 
+	l'axe des z. 
+	Dans le cas contraire, on conserve les positions.
